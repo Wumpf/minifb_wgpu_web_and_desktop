@@ -10,6 +10,14 @@ minifb = "0.27.0"
 # Logging, mostly since println can't be used on the web.
 log = "0.4.22"
 
+[target.'cfg(not(target_arch = "wasm32"))'.dependencies]
+pollster = "0.3.0"
+env_logger = { version = "0.11.5", default-features = false, features = [
+    "auto-color",
+    "humantime",
+] }
+
+
 [target.'cfg(target_arch = "wasm32")'.dependencies]
 # Web dependencies.
 console_error_panic_hook = "0.1.7"

@@ -760,7 +760,7 @@ dependencies = [
 [[package]]
 name = "minifb"
 version = "0.27.0"
-source = "git+https://github.com/wumpf/rust_minifb.git?branch=fix-wasm-raw-handle#fc7d7cd578d3daf6123b936047d89f296e3025e2"
+source = "git+https://github.com/wumpf/rust_minifb.git?branch=various-fixes#732181e054e5cdcefc8d0c0d772d339d1347c8b7"
 dependencies = [
  "cc",
  "console_error_panic_hook",
@@ -791,8 +791,10 @@ version = "0.1.0"
 dependencies = [
  "console_error_panic_hook",
  "console_log",
+ "env_logger",
  "log",
  "minifb",
+ "pollster",
  "wasm-bindgen",
  "wasm-bindgen-futures",
  "wgpu",
@@ -922,6 +924,12 @@ name = "pkg-config"
 version = "0.3.31"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "953ec861398dccce10c670dfeaf3ec4911ca479e9c02154b3a215178c5f566f2"
+
+[[package]]
+name = "pollster"
+version = "0.3.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "22686f4785f02a4fcc856d3b3bb19bf6c8160d103f7a99cc258bddd0251dc7f2"
 
 [[package]]
 name = "portable-atomic"

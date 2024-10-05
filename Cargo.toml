@@ -4,4 +4,5 @@ members = ["minifb_wgpu_example", "xtask"]
 default-members = ["minifb_wgpu_example"]
 
 [patch.crates-io]
-minifb = { git = "https://github.com/wumpf/rust_minifb.git", branch = "fix-wasm-raw-handle" }
+minifb = { git = "https://github.com/wumpf/rust_minifb.git", branch = "various-fixes" }
+#minifb = { path = "../rust_minifb" }

@@ -1,4 +1,4 @@
-use std::sync::Arc;
+use std::mem::ManuallyDrop;
 
 use minifb::{Window, WindowOptions};
 
@@ -12,11 +12,20 @@ mod main_web;
 mod main_desktop;
 
 struct Application<'a> {
-    window: Arc<Window>,
-    surface: wgpu::Surface<'a>,
+    window: Window,
+    surface: ManuallyDrop<wgpu::Surface<'a>>,
     adapter: wgpu::Adapter,
     device: wgpu::Device,
     queue: wgpu::Queue,
+}
+
+impl Drop for Application<'_> {
+    fn drop(&mut self) {
+        // Drop surface before dropping the window, to ensure it always refers to valid window handles.
+        unsafe {
+            ManuallyDrop::drop(&mut self.surface);
+        }
+    }
 }
 
 impl<'a> Application<'a> {
@@ -25,18 +34,27 @@ impl<'a> Application<'a> {
     /// There's various ways for this to fail, all of which are handled via `expect` right now.
     /// Of course there's be better ways to handle these (e.g. show something nice on screen or try a bit harder).
     async fn new() -> Self {
-        let window = Arc::new(
-            Window::new("minifb", WIDTH, HEIGHT, WindowOptions::default()).unwrap_or_else(|e| {
-                panic!("{}", e);
-            }),
-        );
-
         // TODO: Use `wgpu::util::new_instance_with_webgpu_detection` once https://github.com/gfx-rs/wgpu/pull/6371 lands.
         let instance = wgpu::Instance::new(wgpu::InstanceDescriptor::default());
 
-        let surface = instance
-            .create_surface(window.clone())
-            .expect("Failed to create surface");
+        let window =
+            Window::new("minifb", WIDTH, HEIGHT, WindowOptions::default()).unwrap_or_else(|e| {
+                panic!("{}", e);
+            });
+
+        // Unfortunately, mini_fb's window type isn't `Send` which is required for wgpu's `WindowHandle` trait.
+        // We instead have to use the unsafe variant to create a surface directly from the window handle.
+        //
+        // SAFETY:
+        // * The window handles are valid at this point
+        // * The window is guranteed to outlive the surface since we're ensuring so in `Application's` Drop impl
+        let surface = unsafe {
+            instance.create_surface_unsafe(
+                wgpu::SurfaceTargetUnsafe::from_window(&window)
+                    .expect("Failed to create surface target."),
+            )
+        }
+        .expect("Failed to create surface");
 
         let adapter = instance
             .request_adapter(&wgpu::RequestAdapterOptions {
@@ -60,7 +78,7 @@ impl<'a> Application<'a> {
 
         let mut application = Application {
             window,
-            surface,
+            surface: ManuallyDrop::new(surface),
             adapter,
             device,
             queue,
@@ -135,6 +153,7 @@ impl<'a> Application<'a> {
 
         let command_buffer = encoder.finish();
         self.queue.submit(Some(command_buffer));
+        frame.present()
     }
 }
 
@@ -143,7 +162,5 @@ fn main() {
     return; // Not used on web, this method is merely a placeholder.
 
     #[cfg(not(target_arch = "wasm32"))]
-    {
-        // TODO
-    }
+    main_desktop::main_desktop();
 }

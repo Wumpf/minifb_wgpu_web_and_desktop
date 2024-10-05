@@ -6,8 +6,6 @@ This is a minimal example of how to use [`wgpu`](https://github.com/gfx-rs/wgpu)
 Run on desktop
 --------------
 
-WIP:
-
 ```sh
 cargo run
 ```
