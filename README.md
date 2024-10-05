@@ -24,7 +24,7 @@ This executes an xtask that builds the wasm binary and launches a web server.
 Known issues & limitations
 --------------------------
 
-As of writing the following two fixes to `minifb` are required (The sample uses a fork that contains both):
+As of writing the following two fixes to `minifb` are required (the sample uses a fork that contains both):
 * https://github.com/emoon/rust_minifb/pull/367
 * https://github.com/emoon/rust_minifb/pull/368
 

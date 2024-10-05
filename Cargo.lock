@@ -760,7 +760,7 @@ dependencies = [
 [[package]]
 name = "minifb"
 version = "0.27.0"
-source = "git+https://github.com/wumpf/rust_minifb.git?branch=various-fixes#732181e054e5cdcefc8d0c0d772d339d1347c8b7"
+source = "git+https://github.com/wumpf/rust_minifb.git?branch=fix-wasm-raw-handle#37307d962c0914c1f1c400afdf7d3d559622c01f"
 dependencies = [
  "cc",
  "console_error_panic_hook",
