@@ -8,7 +8,7 @@ wgpu = { version = "22.1.0", features = ["webgl"] } # Enable WebGL fallback.
 #minifb = "0.28.0"
 # This project needs a few fixes that haven't been released yet.
 # Target a specific commit of minifb until 0.28.0 is released.
-minifb = { git = "https://github.com/emoon/rust_minifb", commit = "b20aaa9dc4d34b0c134e665a6eae24cb5bb06fca" }
+minifb = { git = "https://github.com/emoon/rust_minifb", rev = "b20aaa9dc4d34b0c134e665a6eae24cb5bb06fca" }
 
 # Logging, mostly since println can't be used on the web.
 log = "0.4.22"
