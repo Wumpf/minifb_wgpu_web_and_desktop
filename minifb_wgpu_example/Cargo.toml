@@ -4,21 +4,15 @@ version = "0.1.0"
 edition = "2021"
 
 [dependencies]
-# Using default features for wgpu.
-# (Note that this means that the webgl fallback is not enabled, meaning this example only works on WebGPU supported browsers)
-wgpu = "22.1.0"
+wgpu = { version = "22.1.0", features = ["webgl"] } # Enable WebGL fallback.
+minifb = "0.27.0"
 
 # Logging, mostly since println can't be used on the web.
 log = "0.4.22"
-
-[target.'cfg(not(target_arch = "wasm32"))'.dependencies]
-# Desktop dependencies.
-minifb = "0.27.0"
 
 [target.'cfg(target_arch = "wasm32")'.dependencies]
 # Web dependencies.
 console_error_panic_hook = "0.1.7"
 console_log = "1.0.0"
-minifb = { version = "0.27.0", default-features = false, features = ["web"] }
 wasm-bindgen = "0.2.93"
 wasm-bindgen-futures = "0.4.43"

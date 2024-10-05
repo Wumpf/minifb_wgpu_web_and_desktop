@@ -37,8 +37,7 @@ impl<'a> Application<'a> {
             }),
         );
 
-        // WebGL fallback is not enabled, this would require some special handling to do gracefully today,
-        // see https://github.com/gfx-rs/wgpu/issues/6166
+        // TODO: Use `wgpu::util::new_instance_with_webgpu_detection` once https://github.com/gfx-rs/wgpu/pull/6371 lands.
         let instance = wgpu::Instance::new(wgpu::InstanceDescriptor::default());
 
         let surface = instance
