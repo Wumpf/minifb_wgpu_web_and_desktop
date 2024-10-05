@@ -2,10 +2,3 @@
 resolver = "2"
 members = ["minifb_wgpu_example", "xtask"]
 default-members = ["minifb_wgpu_example"]
-
-# Need the following fixes:
-# * Windows crash: https://github.com/emoon/rust_minifb/pull/367
-# * WebGl/WebGPU crash: https://github.com/emoon/rust_minifb/pull/368
-[patch.crates-io]
-minifb = { git = "https://github.com/wumpf/rust_minifb.git", branch = "fix-wasm-raw-handle" }
-#minifb = { path = "../rust_minifb" }

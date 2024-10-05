@@ -24,10 +24,6 @@ This executes an xtask that builds the wasm binary and launches a web server.
 Known issues & limitations
 --------------------------
 
-As of writing the following two fixes to `minifb` are required (the sample uses a fork that contains both):
-* https://github.com/emoon/rust_minifb/pull/367
-* https://github.com/emoon/rust_minifb/pull/368
-
-Chrome(ium) on Linux incorrectly reports WebGPU support, causing the application to crash on startup.
-This will likely be addressed in a future release of `wgpu` using a new `wgpu::util::new_instance_with_webgpu_detection` utility method:
-* https://github.com/gfx-rs/wgpu/pull/6371
+* A bunch of fixes to `minifb` are required which haven't been released yet (as of writing). This project therefore depends on a specific commit of `minifb` for now.
+* Chrome(ium) on Linux incorrectly reports WebGPU support, causing the application to crash on startup.
+This will likely be addressed in a future release of `wgpu` using a new `wgpu::util::new_instance_with_webgpu_detection` utility method, see https://github.com/gfx-rs/wgpu/pull/6371
