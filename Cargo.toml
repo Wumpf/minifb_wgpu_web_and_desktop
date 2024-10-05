@@ -3,7 +3,7 @@ resolver = "2"
 members = ["minifb_wgpu_example", "xtask"]
 default-members = ["minifb_wgpu_example"]
 
-# Need to the following fixes:
+# Need the following fixes:
 # * Windows crash: https://github.com/emoon/rust_minifb/pull/367
 # * WebGl/WebGPU crash: https://github.com/emoon/rust_minifb/pull/368
 [patch.crates-io]
