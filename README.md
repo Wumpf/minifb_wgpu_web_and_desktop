@@ -20,3 +20,6 @@ cargo xtask run-wasm
 ```
 
 This executes an xtask that builds the wasm binary and launches a web server.
+
+The example will automatically pick WebGPU if available and fall back to WebGL otherwise.
+Known issue: Chrome Linux will pick WebGPU even though not supported (will be addressed once https://github.com/gfx-rs/wgpu/pull/6371 lands).

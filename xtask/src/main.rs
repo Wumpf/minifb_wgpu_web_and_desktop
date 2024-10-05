@@ -12,8 +12,9 @@ Commands:
   run-wasm
     Build and run web examples
 
-    --release   Build in release mode
-    --no-serve  Just build the generated files, don't serve them
+    --release           Build in release mode
+    --no-serve          Just build the generated files, don't serve them
+    --no-source-map     Skip creating a source map.
 
 Options:
   -h, --help  Print help
