@@ -3,7 +3,7 @@ use std::mem::ManuallyDrop;
 use minifb::{Window, WindowOptions};
 
 const WIDTH: usize = 640;
-const HEIGHT: usize = 360;
+const HEIGHT: usize = 480;
 
 #[cfg(target_arch = "wasm32")]
 mod main_web;
