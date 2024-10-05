@@ -26,13 +26,7 @@ impl<'a> Application<'a> {
     /// Of course there's be better ways to handle these (e.g. show something nice on screen or try a bit harder).
     async fn new() -> Self {
         let window = Arc::new(
-            Window::new(
-                "Minimal wgpu + minifb",
-                WIDTH,
-                HEIGHT,
-                WindowOptions::default(),
-            )
-            .unwrap_or_else(|e| {
+            Window::new("minifb", WIDTH, HEIGHT, WindowOptions::default()).unwrap_or_else(|e| {
                 panic!("{}", e);
             }),
         );
@@ -56,6 +50,7 @@ impl<'a> Application<'a> {
             .request_device(
                 &wgpu::DeviceDescriptor {
                     label: Some("Device"),
+                    required_limits: wgpu::Limits::downlevel_webgl2_defaults(), // Needed if you want to support WebGL!
                     ..Default::default()
                 },
                 None,
