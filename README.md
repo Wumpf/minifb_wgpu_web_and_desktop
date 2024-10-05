@@ -25,5 +25,3 @@ Known issues & limitations
 --------------------------
 
 * A bunch of fixes to `minifb` are required which haven't been released yet (as of writing). This project therefore depends on a specific commit of `minifb` for now.
-* Chrome(ium) on Linux incorrectly reports WebGPU support, causing the application to crash on startup.
-This will likely be addressed in a future release of `wgpu` using a new `wgpu::util::new_instance_with_webgpu_detection` utility method, see https://github.com/gfx-rs/wgpu/pull/6371
