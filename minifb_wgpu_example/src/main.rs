@@ -192,7 +192,7 @@ impl<'a> Application<'a> {
             Err(err) => match err {
                 wgpu::SurfaceError::Timeout => {
                     log::warn!("Surface texture acquisition timed out.");
-                    return; // Try again next frame. TODO: does this make sense?
+                    return; // Try again next frame. TODO: does this make always sense?
                 }
                 wgpu::SurfaceError::Outdated => {
                     // Need to reconfigure the surface and try again.
@@ -201,7 +201,7 @@ impl<'a> Application<'a> {
                 }
                 wgpu::SurfaceError::Lost => {
                     log::error!("Swapchain has been lost.");
-                    return; // Try again next frame. TODO: does this make sense?
+                    return; // Try again next frame. TODO: does this make always sense?
                 }
                 wgpu::SurfaceError::OutOfMemory => panic!("Out of memory on surface acquisition"),
             },

@@ -54,25 +54,24 @@ pub fn run_wasm(shell: Shell, mut args: Arguments) -> anyhow::Result<()> {
     let no_serve = args.contains("--no-serve");
     let release = args.contains("--release");
 
-    let programs_needed: &[_] = if no_serve {
-        &[Program {
-            crate_name: "wasm-bindgen-cli",
-            binary_name: "wasm-bindgen",
-        }]
-    } else {
-        &[
-            Program {
-                crate_name: "wasm-bindgen-cli",
-                binary_name: "wasm-bindgen",
-            },
-            Program {
-                crate_name: "simple-http-server",
-                binary_name: "simple-http-server",
-            },
-        ]
+    let mut programs_needed = vec![Program {
+        crate_name: "wasm-bindgen-cli",
+        binary_name: "wasm-bindgen",
+    }];
+    if !no_serve {
+        programs_needed.push(Program {
+            crate_name: "simple-http-server",
+            binary_name: "simple-http-server",
+        });
     };
+    if release {
+        programs_needed.push(Program {
+            crate_name: "wasm-opt",
+            binary_name: "wasm-opt",
+        });
+    }
 
-    check_all_programs(programs_needed)?;
+    check_all_programs(&programs_needed)?;
 
     let release_flag: &[_] = if release { &["--release"] } else { &[] };
     let output_dir = if release { "release" } else { "debug" };
@@ -100,7 +99,18 @@ pub fn run_wasm(shell: Shell, mut args: Arguments) -> anyhow::Result<()> {
     .run()
     .context("Failed to run wasm-bindgen")?;
 
-    // TODO: Run wasm-opt
+    if release {
+        log::info!("running wasm-opt");
+
+        let wasm_path = format!("target/generated/app_bg.wasm");
+        xshell::cmd!(
+            shell,
+            "wasm-opt {wasm_path} -O2 --output {wasm_path} --enable-reference-types"
+        )
+        .quiet()
+        .run()
+        .context("Failed to run wasm-bindgen")?;
+    }
 
     let static_files = shell
         .read_dir(format!("{CRATE_NAME}/web_resources"))
