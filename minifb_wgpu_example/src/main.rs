@@ -75,6 +75,7 @@ impl<'a> Application<'a> {
             })
             .await
             .expect("Failed to find an appropriate adapter");
+        log::info!("Created wgpu adapter: {:?}", adapter.get_info());
 
         let (device, queue) = adapter
             .request_device(
