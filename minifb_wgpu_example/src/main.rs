@@ -176,6 +176,12 @@ impl<'a> Application<'a> {
     fn configure_surface(&mut self) {
         // Need to reconfigure the surface and try again.
         let (width, height) = self.window.get_size();
+
+        // Only configure the surface if the dimensions are valid.
+        if width == 0 || height == 0 {
+            return;
+        }
+
         self.surface.configure(
             &self.device,
             &wgpu::SurfaceConfiguration {
