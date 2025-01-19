@@ -4,8 +4,8 @@ members = ["minifb_wgpu_example", "xtask"]
 default-members = ["minifb_wgpu_example"]
 
 [patch.crates-io]
-wgpu = { git = "https://github.com/wumpf/wgpu", branch = "better-webgpu-selection2" }
-wgpu-types = { git = "https://github.com/wumpf/wgpu", branch = "better-webgpu-selection2" }
-naga = { git = "https://github.com/wumpf/wgpu", branch = "better-webgpu-selection2" }
-wgpu-hal = { git = "https://github.com/wumpf/wgpu", branch = "better-webgpu-selection2" }
+# wgpu = { git = "https://github.com/wumpf/wgpu", branch = "trunk" }
+# wgpu-types = { git = "https://github.com/wumpf/wgpu", branch = "trunk" }
+# naga = { git = "https://github.com/wumpf/wgpu", branch = "trunk" }
+# wgpu-hal = { git = "https://github.com/wumpf/wgpu", branch = "trunk" }
 #minifb = { path = "../rust_minifb" }

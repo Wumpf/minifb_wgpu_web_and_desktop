@@ -4,7 +4,8 @@ version = "0.1.0"
 edition = "2021"
 
 [dependencies]
-wgpu = { version = "22", features = ["webgl"] } # Enable WebGL fallback.
+wgpu = { version = "23", features = ["webgl"] } # Enable WebGL fallback.
+
 #minifb = "0.28.0"
 # This project needs a few fixes that haven't been released yet.
 # Target a specific commit of minifb until 0.28.0 is released.
