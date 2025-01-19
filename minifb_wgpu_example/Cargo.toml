@@ -4,7 +4,8 @@ version = "0.1.0"
 edition = "2021"
 
 [dependencies]
-wgpu = { version = "22.1.0", features = ["webgl"] } # Enable WebGL fallback.
+wgpu = { version = "23", features = ["webgl"] } # Enable WebGL fallback.
+
 #minifb = "0.28.0"
 # This project needs a few fixes that haven't been released yet.
 # Target a specific commit of minifb until 0.28.0 is released.
@@ -25,5 +26,5 @@ env_logger = { version = "0.11.5", default-features = false, features = [
 # Web dependencies.
 console_error_panic_hook = "0.1.7"
 console_log = "1.0.0"
-wasm-bindgen = "0.2.93"
+wasm-bindgen = "0.2.95"
 wasm-bindgen-futures = "0.4.43"

@@ -37,8 +37,9 @@ impl<'a> Application<'a> {
     /// There's various ways for this to fail, all of which are handled via `expect` right now.
     /// Of course there's be better ways to handle these (e.g. show something nice on screen or try a bit harder).
     async fn new() -> Self {
-        // TODO: Use `wgpu::util::new_instance_with_webgpu_detection` once https://github.com/gfx-rs/wgpu/pull/6371 lands.
-        let instance = wgpu::Instance::new(wgpu::InstanceDescriptor::default());
+        let instance =
+            wgpu::util::new_instance_with_webgpu_detection(wgpu::InstanceDescriptor::default())
+                .await;
 
         let window = Window::new(
             "minifb",
@@ -74,6 +75,7 @@ impl<'a> Application<'a> {
             })
             .await
             .expect("Failed to find an appropriate adapter");
+        log::info!("Created wgpu adapter: {:?}", adapter.get_info());
 
         let (device, queue) = adapter
             .request_device(
@@ -153,7 +155,7 @@ impl<'a> Application<'a> {
             layout: Some(&pipeline_layout),
             vertex: wgpu::VertexState {
                 module: &shader,
-                entry_point: "vs_main",
+                entry_point: Some("vs_main"),
                 compilation_options: wgpu::PipelineCompilationOptions::default(),
                 buffers: &[], // No need for vertex buffers, the shader generates all the data.
             },
@@ -162,7 +164,7 @@ impl<'a> Application<'a> {
             multisample: wgpu::MultisampleState::default(),
             fragment: Some(wgpu::FragmentState {
                 module: &shader,
-                entry_point: "fs_main",
+                entry_point: Some("fs_main"),
                 compilation_options: wgpu::PipelineCompilationOptions::default(),
                 targets: &[Some(target_format.into())],
             }),
@@ -174,6 +176,12 @@ impl<'a> Application<'a> {
     fn configure_surface(&mut self) {
         // Need to reconfigure the surface and try again.
         let (width, height) = self.window.get_size();
+
+        // Only configure the surface if the dimensions are valid.
+        if width == 0 || height == 0 {
+            return;
+        }
+
         self.surface.configure(
             &self.device,
             &wgpu::SurfaceConfiguration {

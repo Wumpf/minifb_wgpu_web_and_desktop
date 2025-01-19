@@ -5,12 +5,18 @@ pub fn main_desktop() {
 
     let mut application = pollster::block_on(Application::new());
 
-    while application.window.is_open() {
+    loop {
         application.window.update();
         if application
             .window
             .is_key_pressed(minifb::Key::Escape, minifb::KeyRepeat::No)
         {
+            return;
+        }
+
+        // It's important to check openness after updating the window.
+        // Otherwise, wgpu's surface might be invalid now.
+        if !application.window.is_open() {
             return;
         }
 
