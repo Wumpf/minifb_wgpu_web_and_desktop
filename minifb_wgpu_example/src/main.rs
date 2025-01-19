@@ -31,14 +31,14 @@ impl Drop for Application<'_> {
     }
 }
 
-impl<'a> Application<'a> {
+impl Application<'_> {
     /// Initializes the application.
     ///
     /// There's various ways for this to fail, all of which are handled via `expect` right now.
     /// Of course there's be better ways to handle these (e.g. show something nice on screen or try a bit harder).
     async fn new() -> Self {
         let instance =
-            wgpu::util::new_instance_with_webgpu_detection(wgpu::InstanceDescriptor::default())
+            wgpu::util::new_instance_with_webgpu_detection(&wgpu::InstanceDescriptor::default())
                 .await;
 
         let window = Window::new(
@@ -122,7 +122,7 @@ impl<'a> Application<'a> {
         // WebGPU doesn't support sRGB(-converting-on-write) output formats, but on native the first format is often an sRGB one.
         // So if we just blindly pick the first, we'll end up with different colors!
         // Since all the colors used in this example are _already_ in sRGB, pick the first non-sRGB format!
-        let surface_capabilitites = surface.get_capabilities(&adapter);
+        let surface_capabilitites = surface.get_capabilities(adapter);
         for format in &surface_capabilitites.formats {
             if !format.is_srgb() {
                 return *format;
@@ -212,6 +212,7 @@ impl<'a> Application<'a> {
                     return; // Try again next frame. TODO: does this make always sense?
                 }
                 wgpu::SurfaceError::OutOfMemory => panic!("Out of memory on surface acquisition"),
+                wgpu::SurfaceError::Other => panic!("Other surface error, check log for details"),
             },
         };
 
